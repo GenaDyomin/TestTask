@@ -49,7 +49,7 @@ Vue.component('appear-form', {
                 date: this.date,
                 type: this.selected,
                 text: this.text,
-                userName: frontendData.profile.email
+                userName: frontendData.profile.name
             };
             if (this.id) {
                 appearApi.update(appear).then(result =>
@@ -78,7 +78,7 @@ Vue.component('appear-form', {
 
 Vue.component('appear-row', {
     props: ['appear', 'editAppear', 'appears'],
-    template: '<div style = "width: 150%">' +
+    template: '<div style = "width: 200%">' +
         '<span>{{ appear.id }} {{ appear.date }} {{ appear.type }} {{ appear.text }}  {{ appear.userName }} </span>'+
         '<button @click="edit">Edit</button>'+
         '<button @click="del"> X </button>'+

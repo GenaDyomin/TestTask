@@ -28,7 +28,7 @@ public class MainController {
         HashMap<Object, Object> data = new HashMap<>();
         try {
             data.put("profile", user);
-            data.put("appears", appearService.getAllAppear(user.getEmail()));
+            data.put("appears", appearService.getAllAppear(user.getName()));
         }
         catch (NullPointerException e){
 

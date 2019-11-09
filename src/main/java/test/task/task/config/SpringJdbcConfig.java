@@ -8,11 +8,11 @@ import test.task.task.dao.AppearDao;
 import test.task.task.dao.AppearDaoImpl;
 import test.task.task.dao.UserDao;
 import test.task.task.dao.UserDaoImpl;
-import test.task.task.entity.Appear;
-import test.task.task.service.AppearService;
-import test.task.task.service.AppearServiceImpl;
+
 
 import javax.sql.DataSource;
+
+
 
 @Configuration
 public class SpringJdbcConfig {
@@ -27,19 +27,39 @@ public class SpringJdbcConfig {
         return dataSource;
     }
 
+
+    private void createTable(){
+        getJdbcTemplate().execute("CREATE TABLE IF NOT EXISTS users" +
+                "(" +
+                "id text NOT NULL ," +
+                "name  text PRIMARY KEY ,\n" +
+                "email text not null\n" +
+                ");");
+
+        getJdbcTemplate().execute(
+                "CREATE TABLE IF NOT EXISTS appears" +
+                        " (id serial PRIMARY KEY , " +
+                        " date text default CURRENT_DATE not null," +
+                        " type text not null," +
+                        " text text not null," +
+                        " username text REFERENCES users(name) ON UPDATE CASCADE ON DELETE CASCADE" +
+                        ")");
+
+    }
+
     @Bean
     public JdbcTemplate getJdbcTemplate() {
         return new JdbcTemplate(getDataSource());
     }
 
     @Bean
-    public AppearDao getAppearDao() {
+    public AppearDao getAppearDao(){
         return new AppearDaoImpl(getJdbcTemplate());
     }
 
-
     @Bean
-    public UserDao getUserDao() {
+    public UserDao getUserDao(){
+        createTable();
         return new UserDaoImpl(getJdbcTemplate());
     }
 }
