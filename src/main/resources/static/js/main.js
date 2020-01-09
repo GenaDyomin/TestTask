@@ -4,7 +4,6 @@ function getIndex(list, id) {
             return i;
         }
     }
-
     return -1;
 }
 
@@ -20,7 +19,9 @@ Vue.component('appear-form', {
             date: new Date().toJSON().slice(0, 10).replace(/-/g, '-'),
             selected: '',
             text: '',
-            name: ''
+            name: '',
+            lattitude: '',
+            longtitude: ''
         }
     },
     watch: {
@@ -30,16 +31,21 @@ Vue.component('appear-form', {
             this.text = newVal.text;
             this.name = newVal.name;
             this.id = newVal.id;
+            this.lattitude = newVal.lattitude;
+            this.longtitude = newVal.longtitude;
+
         }
     },
     template: '<div>' +
         '<span> <em>Date: </em>{{ date }} <em>Type:</em>  </span>    ' +
         '<select v-model="selected">' +
-        '  <option>complain</option>' +
+        '  <option>accident</option>' +
         '  <option>review</option>' +
         '  <option>inquiry</option>' +
         '</select>' +
         '<input type ="text" placeholder="Write description" v-model="text" /> ' +
+        '<input type ="text" placeholder="lattitude" v-model="lattitude" />'+
+        '<input type ="text" placeholder="longtitude" v-model="longtitude" />'+
         '<input type="button" value="Add" @click ="save">' +
         '</div>',
     methods: {
@@ -49,7 +55,9 @@ Vue.component('appear-form', {
                 date: this.date,
                 type: this.selected,
                 text: this.text,
-                userName: frontendData.profile.name
+                userName: frontendData.profile.name,
+                lattitude: this.lattitude,
+                longtitude: this.longtitude
             };
             if (this.id) {
                 appearApi.update(appear).then(result =>
@@ -60,6 +68,8 @@ Vue.component('appear-form', {
                 this.date = new Date().toJSON().slice(0, 10).replace(/-/g, '-')
                 this.name = ''
                 this.id = ''
+                this.lattitude = ''
+                this.longtitude = ''
             })
             )
             } else {
@@ -69,6 +79,8 @@ Vue.component('appear-form', {
                 this.userName = ''
                 this.date = new Date().toJSON().slice(0, 10).replace(/-/g, '-')
                 this.id = ''
+                this.lattitude = ''
+                this.longtitude = ''
             })
             )
             }
@@ -79,7 +91,7 @@ Vue.component('appear-form', {
 Vue.component('appear-row', {
     props: ['appear', 'editAppear', 'appears'],
     template: '<div style = "width: 200%">' +
-        '<span>{{ appear.id }} {{ appear.date }} {{ appear.type }} {{ appear.text }}  {{ appear.userName }} </span>'+
+        '<span>{{ appear.id }} {{ appear.date }} {{ appear.type }} {{ appear.text }}  {{ appear.userName }} {{appear.lattitude}} {{appear.longtitude}}</span>'+
         '<button @click="edit">Edit</button>'+
         '<button @click="del"> X </button>'+
         '<br>'+
@@ -123,12 +135,18 @@ var app = new Vue({
         '<div v-if="!profile">Login required! <a href="/login">Google</a></div>' +
         '<div v-else>' +
         '<div>{{profile.name}}&nbsp;<a href="/logout">Выйти</a></div>' +
+        '<input type="button" value="Show map" @click ="show">' +
         '<appears-list :appears="appears" />' +
         '</div>' +
         '</div>',
     data: {
         appears: frontendData.appears,
         profile: frontendData.profile
+    },
+    methods: {
+        show: function () {
+            document.getElementById("map").style.display = "block";
+        }
     },
     created: function () {/*
         appearApi.get().then(result => result.json().then(data => data.forEach(

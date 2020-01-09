@@ -6,6 +6,26 @@ public class Appear {
     private String type;
     private String text;
     private String userName;
+    private double lattitude;
+    private double longtitude;
+
+    public double getLattitude() {
+        return lattitude;
+    }
+
+    public void setLattitude(double lattitude) {
+        this.lattitude = lattitude;
+    }
+
+    public double getLongtitude() {
+        return longtitude;
+    }
+
+    public void setLongtitude(double longtitude) {
+        this.longtitude = longtitude;
+    }
+
+
 
     public Long getId() {
         return id;
@@ -50,6 +70,6 @@ public class Appear {
 
     @Override
     public String toString(){
-        return  "Appears [id = "+ id+", date = " + date + ", type = " + type + ", text = " + text + ", userName = " + userName + "]";
+        return  "Appears [id = "+ id+", date = " + date + ", type = " + type + ", text = " + text + ", userName = " + userName + ", lattitude = " + lattitude + ", longtitude = " + longtitude + "]";
     }
 }

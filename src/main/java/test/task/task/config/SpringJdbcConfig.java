@@ -13,7 +13,6 @@ import test.task.task.dao.UserDaoImpl;
 import javax.sql.DataSource;
 
 
-
 @Configuration
 public class SpringJdbcConfig {
 
@@ -22,13 +21,13 @@ public class SpringJdbcConfig {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/postgres");
-        dataSource.setUsername("Gena");
+        dataSource.setUsername("postgres");
         dataSource.setPassword("pas");
         return dataSource;
     }
 
 
-    private void createTable(){
+    private void createTable() {
         getJdbcTemplate().execute("CREATE TABLE IF NOT EXISTS users" +
                 "(" +
                 "id text NOT NULL ," +
@@ -42,6 +41,8 @@ public class SpringJdbcConfig {
                         " date text default CURRENT_DATE not null," +
                         " type text not null," +
                         " text text not null," +
+                        "lattitude text not null," +
+                        "longtitude text not null," +
                         " username text REFERENCES users(name) ON UPDATE CASCADE ON DELETE CASCADE" +
                         ")");
 
@@ -53,12 +54,12 @@ public class SpringJdbcConfig {
     }
 
     @Bean
-    public AppearDao getAppearDao(){
+    public AppearDao getAppearDao() {
         return new AppearDaoImpl(getJdbcTemplate());
     }
 
     @Bean
-    public UserDao getUserDao(){
+    public UserDao getUserDao() {
         createTable();
         return new UserDaoImpl(getJdbcTemplate());
     }

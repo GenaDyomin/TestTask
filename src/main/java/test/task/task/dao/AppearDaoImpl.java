@@ -38,7 +38,7 @@ public class AppearDaoImpl implements AppearDao {
 
     @Override
     public Appear insertAppear(Appear appear) {
-        final String sql = "INSERT INTO appears (date, type, text, username) VALUES (?,?,?,?)";
+        final String sql = "INSERT INTO appears (date, type, text, username, lattitude, longtitude) VALUES (?,?,?,?,?,?)";
 
         KeyHolder holder = new GeneratedKeyHolder();
 
@@ -51,6 +51,8 @@ public class AppearDaoImpl implements AppearDao {
                 ps.setString(2, appear.getType());
                 ps.setString(3, appear.getText());
                 ps.setString(4, appear.getUserName());
+                ps.setString(5, String.valueOf(appear.getLattitude()));
+                ps.setString(6, String.valueOf(appear.getLongtitude()));
                 return ps;
             }
         }, holder);
@@ -61,9 +63,10 @@ public class AppearDaoImpl implements AppearDao {
 
     @Override
     public Appear updateAppear(Appear appear) {
-        String sql = "UPDATE appears SET date=?, type=?, text=?,username=? WHERE id=?";
+        String sql = "UPDATE appears SET date=?, type=?, text=?, username=?, lattitude=?, longtitude=? WHERE id=?";
         jdbcTemplate.update(sql, appear.getDate(), appear.getType(),
-                appear.getText(), appear.getUserName(), appear.getId());
+                appear.getText(), appear.getUserName(), String.valueOf(appear.getLattitude()), String.valueOf(appear.getLongtitude()),
+                appear.getId());
         System.out.println(getAppear(appear.getId()).toString());
         return getAppear(appear.getId());
     }

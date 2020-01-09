@@ -17,6 +17,8 @@ public class AppearMapper implements RowMapper<Appear> {
         appear.setType(resultSet.getString("type"));
         appear.setText(resultSet.getString("text"));
         appear.setUserName(resultSet.getString("username"));
+        appear.setLattitude(Double.parseDouble(resultSet.getString("lattitude")));
+        appear.setLongtitude(Double.parseDouble(resultSet.getString("longtitude")));
         return appear;
     }
 }
